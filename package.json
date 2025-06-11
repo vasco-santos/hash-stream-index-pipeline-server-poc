@@ -1,0 +1,96 @@
+{
+  "name": "hash-stream-index-pipeline-server-poc",
+  "version": "1.0.0",
+  "description": "Off-the-shelf Trustless HTTP Server PoC for Content-Addressable Data",
+  "homepage": "https://github.com/vasco-santos/hash-stream-index-pipeline-server-poc#readme",
+  "bugs": {
+    "url": "https://github.com/vasco-santos/hash-stream-index-pipeline-server-poc/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vasco-santos/hash-stream-index-pipeline-server-poc.git"
+  },
+  "license": "Apache-2.0 OR MIT",
+  "author": "Vasco Santos",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "format": "prettier --write '**/*.{js,ts,yml,json}' --ignore-path .gitignore",
+    "format:check": "prettier --check '**/*.{js,ts,yml,json}' --ignore-path .gitignore",
+    "lint": "eslint '**/*.{js,ts}' && prettier --check '**/*.{js,ts,yml,json}'",
+    "dev": "node src/index.js",
+    "start": "pm2 start src/index.js --name hash-stream-server",
+    "stop": "pm2 stop hash-stream-server",
+    "test": "NODE_ENV=test mocha 'test/**/!(*.browser).test.js' -n experimental-vm-modules -n no-warnings --timeout=30s"
+  },
+  "dependencies": {
+    "@hash-stream/index": "^1.4.3",
+    "@hash-stream/index-pipeline": "^1.2.0",
+    "@hash-stream/pack": "^1.6.1",
+    "@hash-stream/streamer": "^1.4.0",
+    "@hash-stream/utils": "^2.2.0",
+    "@hono/node-server": "^1.14.1",
+    "hono": "^4.7.6",
+    "typescript": "^5.8.2"
+  },
+  "devDependencies": {
+    "@vascosantos/block-brokers": "^4.2.3",
+    "@helia/http": "^2.1.2",
+    "@vascosantos/verified-fetch": "^2.6.21",
+    "@ipld/car": "^5.4.0",
+    "@storacha/one-webcrypto": "^1.0.1",
+    "@types/assert": "^1.5.11",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^22.13.10",
+    "assert": "^2.1.0",
+    "eslint": "^8.57.0",
+    "hd-scripts": "^9.1.0",
+    "ipfs-unixfs-exporter": "^13.6.2",
+    "it-all": "^3.0.7",
+    "lint-staged": "^15.5.0",
+    "mocha": "^11.1.0",
+    "multiformats": "^13.3.2",
+    "prettier": "2.8.3",
+    "pm2": "^6.0.5",
+    "uint8arrays": "^5.1.0"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "npx lint-staged"
+  },
+  "lint-staged": {
+    "*.{js,ts,md,yml,json}": "prettier --write",
+    "*": "eslint --fix"
+  },
+  "prettier": "hd-scripts/prettier.config.js",
+  "eslintConfig": {
+    "extends": [
+      "./node_modules/hd-scripts/eslint/index.js"
+    ],
+    "parserOptions": {
+      "project": "./tsconfig.json"
+    },
+    "ignorePatterns": [
+      "sst-env.d.ts"
+    ],
+    "rules": {
+      "no-console": "off",
+      "unicorn/no-process-exit": "off",
+      "@typescript-eslint/triple-slash-reference": "off",
+      "@typescript-eslint/prefer-nullish-coalescing": "off",
+      "@typescript-eslint/strict-boolean-expressions": "off"
+    },
+    "overrides": [
+      {
+        "files": [
+          "test/**/*.js"
+        ],
+        "env": {
+          "mocha": true
+        }
+      }
+    ]
+  }
+}
